@@ -1,8 +1,9 @@
 
   
-  window.onload(){
+  window.onload(function(){
+  
     document.getElementById("chatOpen").addEventListener("click", chatWindowSetup);
-  }
+  });
  
   function chatWindowSetup() {
     if(document.getElementById("user-name").value != ""){     
