@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   
-  //eventlistener setup
+  //eventlistener setup'
   document.querySelector('button').addEventListener('click', chatWindowSetup());  
   
   document.getElementById('user-name').addEventListener('change', function()
