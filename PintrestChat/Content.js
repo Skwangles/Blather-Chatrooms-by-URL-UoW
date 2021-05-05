@@ -2,23 +2,27 @@ document.addEventListener('DOMContentLoaded', function () {
   
   //eventlistener setup
   document.querySelector('button').addEventListener('click', chatWindowSetup());  
+  
   document.getElementById('user-name').addEventListener('change', function()
   {
     chrome.storage.sync.set({"name":document.getElementById("user-name").value});
   });
 //not working?
 
+chrome.runtime.onInstalled.addListener(function(details){
+  chrome.storage.sync.set({"name":"anonymous"});
+}) 
 
   //sets up the username
   if(document.getElementById("user-name").value == ""){
     chrome.storage.sync.get(["name"], function(result){
-        document.getElementById("user-name").value = result.value; 
+      if(result.value != "undefined"){
+        document.getElementById("user-name").value = result.name; 
+      }
    });
   }  
 
-  chrome.runtime.onInstalled.addListener(function(details){
-    chrome.storage.sync.set({"name":""});
-  })  
+   
 });
 
 //defines item in storage
