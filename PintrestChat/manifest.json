@@ -16,6 +16,7 @@
 
   "action":{
     "default_popup":"popup.html",
-    "default_title":"Pinterest Chat"
+    "default_title":"Pinterest Chat",
+    "scripts":["popup.js"]
   }
 }
