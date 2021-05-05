@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
   //eventlistener setup'
   
   document.querySelector('button').addEventListener('click', chatWindowSetup());    
-  document.getElementById("errors").innerHTML = "";
-  
   document.getElementById('user-name').addEventListener('change', function()
   {
     chrome.storage.sync.set({"name":document.getElementById("user-name").value});
@@ -14,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
 chrome.runtime.onInstalled.addListener(function(details){
   chrome.storage.sync.set({"name":"anonymous"});
 }) 
-
 
   //sets up the username
   if(document.getElementById("user-name").value == ""){
@@ -26,9 +23,7 @@ chrome.runtime.onInstalled.addListener(function(details){
         document.getElementById("user-name").value = "";
       }
    });
-  }  
-
-  
+  }    
 });
 
 //defines item in storage
@@ -40,7 +35,8 @@ chrome.runtime.onInstalled.addListener(function(details){
     
     
     function chatWindowSetup() {
-      if(document.getElementById("user-name").value != ""){     
+      document.getElementById("errors").innerHTML = "";
+        
       console.log("Works");
         document.getElementById("errors").innerHTML = "";
       var myUrl = "https://youtube.com?b=" + passURL();
@@ -55,10 +51,7 @@ chrome.runtime.onInstalled.addListener(function(details){
         url: myUrl,
       type:"popup",
       });
-    }
-    else{
-      document.getElementById("errors").innerHTML = "Enter a name before using the Chat";
-    }
+    
 
     }
   
