@@ -1,12 +1,12 @@
 window.onload(function(){
-  
+  console.log("-- Loaded --");
     document.getElementById("chatOpen").addEventListener("click", chatWindowSetup);
   });
  
   function chatWindowSetup() {
     if(document.getElementById("user-name").value != ""){     
     document.getElementById("error-log").innerHTML = "";
-    var myUrl = "https://localhost:44329?b=" + passURL();
+    var myUrl = "https://youtube.com?b=" + passURL();
     chrome.windows.create({
       alwaysOnTop: true,
       focused: true,
