@@ -31,27 +31,26 @@ chrome.runtime.onInstalled.addListener(function(details){
 
 //defines item in storage
 
-
-
-    //changes the saved name
-    
-    
-    
     function chatWindowSetup() {
+      //
+      //
+      //CHANGE HEIGHT AND WIDTH HERE----------------------------
+      //
+      //
       let w = 320;
       let h = 350;
         console.log(window.innerHeight);
         console.log(window.innerWidth);
       console.log("Works");
-      var myUrl = "https://youtube.com?b=" + passURL();
+      var myUrl = "https://youtube.com?b=" + passURL()+"?n="+document.getElementById("user-name").value;
       console.log("CreateWindow");
       console.log(chrome.windows);
       chrome.windows.create({
         focused: true,
         height: h,
         width: w,
-        left: 500,
-        top: window.height-h,
+        left: 20,
+        top: 20,
         url: [myUrl],
       type:"panel"
       });
