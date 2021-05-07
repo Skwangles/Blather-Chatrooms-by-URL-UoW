@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   
-  //eventlistener setup'
+  //eventlistener setup
   
   document.getElementById('chat-open').addEventListener('click', chatWindowSetup);
   
@@ -42,7 +42,7 @@ chrome.runtime.onInstalled.addListener(function(details){
         console.log(window.innerHeight);
         console.log(window.innerWidth);
       console.log("Works");
-      var myUrl = "https://youtube.com?b=" + passURL()+"?n="+document.getElementById("user-name").value;
+      var myUrl = "https://localhost:44329?b=" + passURL()+"?n="+document.getElementById("user-name").value;
       console.log("CreateWindow");
       console.log(chrome.windows);
       chrome.windows.create({
