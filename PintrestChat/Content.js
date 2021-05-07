@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   
   //eventlistener setup'
   
-  document.querySelector('button').addEventListener('click', chatWindowSetup());    
+  document.getElementById('chat-open').addEventListener('click', chatWindowSetup);
+  
+  
+
   document.getElementById('user-name').addEventListener('change', function()
   {
     chrome.storage.sync.set({"name":document.getElementById("user-name").value});
@@ -35,26 +38,29 @@ chrome.runtime.onInstalled.addListener(function(details){
     
     
     function chatWindowSetup() {
-      document.getElementById("errors").innerHTML = "";
-        
+      let w = 320;
+      let h = 350;
+        console.log(window.innerHeight);
+        console.log(window.innerWidth);
       console.log("Works");
-        document.getElementById("errors").innerHTML = "";
       var myUrl = "https://youtube.com?b=" + passURL();
       console.log("CreateWindow");
-      chrome.window.create({
-        alwaysOnTop: true,
+      console.log(chrome.windows);
+      chrome.windows.create({
         focused: true,
-        height: 350,
-        width: 320,
-        left: tab.innerWidth - width,
-        top: tab.innerHeight - height,
-        url: myUrl,
-      type:"popup",
+        height: h,
+        width: w,
+        left: 500,
+        top: window.height-h,
+        url: [myUrl],
+      type:"panel"
       });
-    
+      
 
     }
   
+
+
     function passURL() {// gets url to send to database
       return parseURL(window.location.href);
   }
