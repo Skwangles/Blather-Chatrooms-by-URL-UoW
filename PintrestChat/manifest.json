@@ -19,7 +19,10 @@
     "js":["Content.js"],
     "all_frames":true
   }
-  ]
+  ],
  
+  "web_accessible_resources": [
+    "button.html"
+  ]
  
 }

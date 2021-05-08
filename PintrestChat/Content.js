@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
   
+  fetch(chrome.runtime.getURL('/button.html')).then(r => r.text()).then(html => {
+    document.body.insertAdjacentHTML('beforeend', html);
+    // not using innerHTML as it would break js event listeners of the page
+  });
   //eventlistener setup
   
   document.getElementById('chat-open').addEventListener('click', chatWindowSetup);
-  
-  
 
   document.getElementById('user-name').addEventListener('change', function()
   {
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 chrome.runtime.onInstalled.addListener(function(details){
   chrome.storage.sync.set({"name":"anonymous"});
-}) 
+}); 
 
   //sets up the username
   if(document.getElementById("user-name").value == ""){
