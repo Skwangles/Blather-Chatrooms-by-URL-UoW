@@ -55,6 +55,7 @@ function urlGet(message) {
     chrome.storage.sync.get(['userID'], function (result) {
         id = result;
     });
+    
     if (document.getElementById("user-id").value != "") {
         id = document.getElementById("user-id").value;
     }
@@ -65,8 +66,6 @@ function urlGet(message) {
         active: true,
         currentWindow: true
     }
-
-console.log("--query--");
     chrome.tabs.query(params, function (tabs) {
 
         let msg = {
@@ -80,8 +79,6 @@ console.log("--query--");
             }
         });
     });
-    console.log("----");
-
 }
 function sendAlert(message){
     let params =
@@ -89,7 +86,6 @@ function sendAlert(message){
         active: true,
         currentWindow: true
     }
-console.log("--alert--");
     chrome.tabs.query(params, function (tabs) {
 
         let msg = {
@@ -97,7 +93,6 @@ console.log("--alert--");
         }
         chrome.tabs.sendMessage(tabs[0].id, msg);
     });
-    console.log("---");
 }
 
 
