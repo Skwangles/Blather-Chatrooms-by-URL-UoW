@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('user-id').addEventListener('change', function () {
         chrome.storage.sync.set({ "user": document.getElementById("user-id").value });
     });
+    document.getElementById('server-url').addEventListener('change', function () {
+        chrome.storage.sync.set({ "serverurl": document.getElementById("server-url").value });
+    });
     //
     //sets up the username
     //
@@ -42,6 +45,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    
+    if (document.getElementById("server-url").value == "") {
+        chrome.storage.sync.get(["serverurl"], function (result) {
+            if (result.serverurl != "") {
+                document.getElementById("server-url").value = result.serverurl;
+            }
+            else {
+                document.getElementById("server-url").value = "";
+            }
+        });
+    }
 
 });
 
@@ -49,9 +63,15 @@ function urlGet(message) {
 
     let w = 320;
     let h = 350;
-    let server = "https://myWebsite";
+    var server = "";//defautl url
+    chrome.storage.sync.get(['serverurl'], function(result){
+        if(result.serverurl != "")
+        server = result.serverurl;
+        else{
+            server = "localhost:4321"
+        }
+    })
     var id = '';
-
     chrome.storage.sync.get(['userID'], function (result) {
         id = result.userID;
     });
@@ -73,7 +93,7 @@ function urlGet(message) {
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
             if(message == "url"){
-                var myUrl = server + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
+                var myUrl = "https://"+ server + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
                 var title = parseURL(myUrl) + " chat";
                 openWindow(myUrl, title, w, h);
             }
