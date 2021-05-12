@@ -47,12 +47,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function urlGet(message) {
 
+    let w = 320;
+    let h = 350;
+    let server = "https://myWebsite";
+    var id = '';
+
+    chrome.storage.sync.get(['userID'], function (result) {
+        id = result;
+    });
+    if (document.getElementById("user-id").value != "") {
+        id = document.getElementById("user-id").value;
+    }
+
+
     let params =
     {
         active: true,
         currentWindow: true
     }
 
+console.log("--query--");
     chrome.tabs.query(params, function (tabs) {
 
         let msg = {
@@ -60,51 +74,42 @@ function urlGet(message) {
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
             if(message == "url"){
-            pageURL = parseURL(response.url);
-            console.log("pg"+ pageURL);
-            console.log(response);
+                var myUrl = server + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
+                var title = parseURL(myUrl) + " chat";
+                openWindow(myUrl, title, w, h);
             }
-           
-           
-            
-
         });
     });
+    console.log("----");
 
+}
+function sendAlert(message){
+    let params =
+    {
+        active: true,
+        currentWindow: true
+    }
+console.log("--alert--");
+    chrome.tabs.query(params, function (tabs) {
+
+        let msg = {
+            message: message
+        }
+        chrome.tabs.sendMessage(tabs[0].id, msg);
+    });
+    console.log("---");
 }
 
 
 //defines item in storage
 
 function chatWindowSetup() {
-    //
-    //
-    //---------------Height, Width and Server name----------------------------
-    //
+    //If empty, return alert.
     if (document.getElementById("user-name").value == "") {
-        urlGet("You must enter a display name");
+        sendAlert("You must enter a display name");
         return;
     }
-    let w = 320;
-    let h = 350;
-    let server = "https://myWebsite";
-
-    //If no user name is entered, use chrome extension's 
-    var id = '';
-    chrome.storage.sync.get(['userID'], function (result) {
-        id = result;
-    });
-    if (document.getElementById("user-id").value != "") {
-        id = document.getElementById("user-id").value;
-    }
-    //
-    //Window Creation
-    //
-    urlGet('url')
-    var myUrl = server + "?" + "b=" + pageURL + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
-    var title = passURL() + " chat";
-    openWindow(myUrl, title, w, h);
-    
+    urlGet('url');
 }
 //parseURL(urlGet('url'))
 
@@ -112,11 +117,6 @@ function openWindow(myUrl, title, w, h) {
     var left = screen.width - w;
     var top = screen.height - h;
     window.open(myUrl, title, "toolbar, location=yes,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
-}
-
-
-function passURL() {// gets url to send to database
-    
 }
 
 function parseURL(loc) {//removes the https://pintrest.nz part of the url
