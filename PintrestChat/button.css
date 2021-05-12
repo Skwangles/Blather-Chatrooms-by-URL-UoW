@@ -1,0 +1,25 @@
+button{
+
+    border-style: none;
+    border-radius: 6px;
+    padding: 7px;
+    margin-top: 8px;
+    background-color: rgb(224, 44, 44);
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover{
+    background-color: rgb(207, 207, 207);
+    color: rgb(24, 24, 24);
+    cursor: pointer;
+    transition: 0.3s;
+}
+input{
+    display: block;
+    border: none;
+    border-radius: 6px;
+    padding: 7px;
+    background-color: rgb(224, 224, 224);
+    color: rgb(100, 100, 100);
+}
