@@ -1,3 +1,4 @@
+var pageURL = "";
 document.addEventListener('DOMContentLoaded', function () {
 
     // fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
@@ -13,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('user-name').addEventListener('change', function () {
         chrome.storage.sync.set({ "name": document.getElementById("user-name").value });
+    });
+    document.getElementById('user-id').addEventListener('change', function () {
+        chrome.storage.sync.set({ "user": document.getElementById("user-id").value });
     });
     //
     //sets up the username
@@ -33,21 +37,42 @@ document.addEventListener('DOMContentLoaded', function () {
             if (result.user != "") {
                 document.getElementById("user-id").value = result.user;
             }
-            else{
+            else {
                 document.getElementById("user-id").value = "";
-            }  
+            }
         });
     }
-    
+
 });
 
-function sendMessage(message) {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { message: "url" }, function (response) {
-            return response;
+function urlGet(message) {
+
+    let params =
+    {
+        active: true,
+        currentWindow: true
+    }
+
+    chrome.tabs.query(params, function (tabs) {
+
+        let msg = {
+            message: message
+        }
+        chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
+            if(message == "url"){
+            pageURL = parseURL(response.url);
+            console.log("pg"+ pageURL);
+            console.log(response);
+            }
+           
+           
+            
+
         });
     });
+
 }
+
 
 //defines item in storage
 
@@ -56,7 +81,10 @@ function chatWindowSetup() {
     //
     //---------------Height, Width and Server name----------------------------
     //
-    //
+    if (document.getElementById("user-name").value == "") {
+        urlGet("You must enter a display name");
+        return;
+    }
     let w = 320;
     let h = 350;
     let server = "https://myWebsite";
@@ -66,31 +94,32 @@ function chatWindowSetup() {
     chrome.storage.sync.get(['userID'], function (result) {
         id = result;
     });
-    if(document.getElementById("user-id").value != ""){
+    if (document.getElementById("user-id").value != "") {
         id = document.getElementById("user-id").value;
     }
     //
     //Window Creation
     //
-    console.log(passURL);
-    var myUrl = server + "?b=" + passURL() + "&n=" + document.getElementById("user-name").value + "&id=" + id;
-    var title = passURL() + " chat"
-    openWindow(myUrl, title, w, h)
+    urlGet('url')
+    var myUrl = server + "?" + "b=" + pageURL + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
+    var title = passURL() + " chat";
+    openWindow(myUrl, title, w, h);
+    
 }
+//parseURL(urlGet('url'))
 
 function openWindow(myUrl, title, w, h) {
     var left = screen.width - w;
     var top = screen.height - h;
-    window.open(myUrl, title, "toolbar,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
+    window.open(myUrl, title, "toolbar, location=yes,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
 }
 
 
 function passURL() {// gets url to send to database
-    return parseURL((sendMessage("url") != null)? sendMessage("url"):"");
+    
 }
 
 function parseURL(loc) {//removes the https://pintrest.nz part of the url
-    console.log(loc);
     loc = loc.replace("https", "");//covers both http and https
     loc = loc.replace("http", "");
     //loc = loc.replace("://pintrest", "");//removes name so .com or .nz is at the front

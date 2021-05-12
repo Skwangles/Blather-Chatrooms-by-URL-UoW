@@ -6,7 +6,7 @@
   
 
   "permissions":[
-    "storage", "tabs"
+    "storage", "tabs", "activeTab"
   ],
   "icons":{
     "128": "Resources/pinChat.png"
