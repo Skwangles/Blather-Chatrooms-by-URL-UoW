@@ -53,7 +53,7 @@ function urlGet(message) {
     var id = '';
 
     chrome.storage.sync.get(['userID'], function (result) {
-        id = result;
+        id = result.userID;
     });
     
     if (document.getElementById("user-id").value != "") {
