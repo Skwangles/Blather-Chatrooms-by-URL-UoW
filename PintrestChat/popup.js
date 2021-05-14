@@ -80,7 +80,7 @@ async function urlGet() {//takes the url
     }
     var name = await getName();
     var myID = await getID();
-    try {
+   
         chrome.tabs.query(params, function (tabs) {
 
             let msg = {
@@ -96,12 +96,7 @@ async function urlGet() {//takes the url
 
 
         });
-    }
-    catch (e) {
-        var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + "default" + "&n=" + name + "&id=" + myID;
-        var title = parseURL("default") + " chat";
-        openWindow("https://more-pinteresting.web.app/?b=default&n=name&id=myID", title, w, h);
-    }
+    
 }
 
 function sendAlert(message) {
