@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // document.getElementById('server-url').addEventListener('change', function () {
     //     chrome.storage.sync.set({ "serverurl": document.getElementById("server-url").value });
     // });
-    
+
 
     if (document.getElementById("user-name").value == "") {//sets display name to currently saved value
         chrome.storage.sync.get(["name"], function (result) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    
+
     // if (document.getElementById("server-url").value == "") {//sets url value to currently saved values
     //     chrome.storage.sync.get(["serverurl"], function (result) {
     //         if (result.serverurl != "") {
@@ -71,32 +71,40 @@ async function urlGet() {//takes the url
     //         server = "localhost:4321"
     //     }
     // })
-console.log (getID());
-console.log(getName());
+    console.log(getID());
+    console.log(getName());
     let params =
     {
         active: true,
         currentWindow: true
     }
     var name = await getName();
-            var myID = await getID();
-    chrome.tabs.query(params, function (tabs) {
+    var myID = await getID();
+    try {
+        chrome.tabs.query(params, function (tabs) {
 
-        let msg = {
-            message: 'urll'
-        }
-        chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
-            console.log(response.urll);
-            
-                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + response.urll + "&" + "n=" +name + "&id=" + myID;
+            let msg = {
+                message: 'urll'
+            }
+
+            chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
+                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + response.urll + "&" + "n=" + name + "&id=" + myID;
                 var title = parseURL(myUrl) + " chat";
                 openWindow(myUrl, title, w, h);
-            
+
+            });
+
+
         });
-    });
+    }
+    catch (e) {
+        var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + "default" + "&n=" + name + "&id=" + myID;
+        var title = parseURL("default") + " chat";
+        openWindow("https://more-pinteresting.web.app/?b=default&n=name&id=myID", title, w, h);
+    }
 }
 
-function sendAlert(message){
+function sendAlert(message) {
     let params =
     {
         active: true,
@@ -111,42 +119,42 @@ function sendAlert(message){
     });
 }
 
-async function getName(){
+async function getName() {
     return new Promise((resolve, reject) => {
-        try{
-  chrome.storage.sync.get(["name"], function (result) {
-      if(document.getElementById("user-name").value != "")
-    resolve( document.getElementById("user-name").value);
-    else if (result.name != "" && result.name != null) {
-        resolve (result.name);
-    }
-    else {
-        resolve ("Anonymous");
-    }
-});
-        }catch(ex){
+        try {
+            chrome.storage.sync.get(["name"], function (result) {
+                if (document.getElementById("user-name").value != "")
+                    resolve(document.getElementById("user-name").value);
+                else if (result.name != "" && result.name != null) {
+                    resolve(result.name);
+                }
+                else {
+                    resolve("Anonymous");
+                }
+            });
+        } catch (ex) {
             reject(ex)
         }
-});
+    });
 }
 
-async function getID(){
+async function getID() {
     return new Promise((resolve, reject) => {
-        try{
-  chrome.storage.sync.get(["userID"], function (result) {
-      if(document.getElementById("user-id").value != "")
-    resolve( document.getElementById("user-id").value);
-    else if (result.userID != "" && result.userID != null) {
-        resolve (result.userID);
-    }
-    else {
-        resolve ("Anonymous");
-    }
-});
-        }catch(ex){
+        try {
+            chrome.storage.sync.get(["userID"], function (result) {
+                if (document.getElementById("user-id").value != "")
+                    resolve(document.getElementById("user-id").value);
+                else if (result.userID != "" && result.userID != null) {
+                    resolve(result.userID);
+                }
+                else {
+                    resolve("Anonymous");
+                }
+            });
+        } catch (ex) {
             reject(ex)
         }
-});
+    });
 }
 
 //defines item in storage
