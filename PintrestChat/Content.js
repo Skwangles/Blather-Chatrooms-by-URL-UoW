@@ -2,12 +2,12 @@
 chrome.runtime.onMessage.addListener(messageRecieved);
 
 function messageRecieved(request, sender, sendResponse) {
-  if (request.message == "url") {
-    sendResponse({ url: window.location.href });
+  if (request.message == "urll") {
+    sendResponse({ urll: window.location.href });
   }
   else if (request.message != ""){
     alert(request.message);
-    sendResponse({url:null});
+    sendResponse({urll:null});
   }
   return true;
 }

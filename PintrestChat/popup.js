@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-function urlGet() {//takes the url
+async function urlGet() {//takes the url
 
-    let w = 320;
-    let h = 350;
+    let w = 400;
+    let h = 500;
     //var server = "";//defautl url
     // chrome.storage.sync.get(['serverurl'], function(result){
     //     if(result.serverurl != "")
@@ -71,34 +71,31 @@ function urlGet() {//takes the url
     //         server = "localhost:4321"
     //     }
     // })
-    var id = '';
-    chrome.storage.sync.get(['userID'], function (result) {//gets prestored value
-        id = result.userID;
-    });
-    
-    if (document.getElementById("user-id").value != "") {//if value is changed, default id will be overridden
-        id = document.getElementById("user-id").value;
-    }
-
-
+console.log (getID());
+console.log(getName());
     let params =
     {
         active: true,
         currentWindow: true
     }
+    var name = await getName();
+            var myID = await getID();
     chrome.tabs.query(params, function (tabs) {
 
         let msg = {
-            message: 'url'
+            message: 'urll'
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
-                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
+            console.log(response.urll);
+            
+                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + response.urll + "&" + "n=" +name + "&id=" + myID;
                 var title = parseURL(myUrl) + " chat";
                 openWindow(myUrl, title, w, h);
             
         });
     });
 }
+
 function sendAlert(message){
     let params =
     {
@@ -114,6 +111,43 @@ function sendAlert(message){
     });
 }
 
+async function getName(){
+    return new Promise((resolve, reject) => {
+        try{
+  chrome.storage.sync.get(["name"], function (result) {
+      if(document.getElementById("user-name").value != "")
+    resolve( document.getElementById("user-name").value);
+    else if (result.name != "" && result.name != null) {
+        resolve (result.name);
+    }
+    else {
+        resolve ("Anonymous");
+    }
+});
+        }catch(ex){
+            reject(ex)
+        }
+});
+}
+
+async function getID(){
+    return new Promise((resolve, reject) => {
+        try{
+  chrome.storage.sync.get(["userID"], function (result) {
+      if(document.getElementById("user-id").value != "")
+    resolve( document.getElementById("user-id").value);
+    else if (result.userID != "" && result.userID != null) {
+        resolve (result.userID);
+    }
+    else {
+        resolve ("Anonymous");
+    }
+});
+        }catch(ex){
+            reject(ex)
+        }
+});
+}
 
 //defines item in storage
 
