@@ -92,11 +92,10 @@ function urlGet() {//takes the url
             message: 'url'
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
-            if(message == "url"){
                 var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
                 var title = parseURL(myUrl) + " chat";
                 openWindow(myUrl, title, w, h);
-            }
+            
         });
     });
 }
