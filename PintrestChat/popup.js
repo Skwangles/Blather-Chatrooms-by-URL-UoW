@@ -10,21 +10,20 @@ document.addEventListener('DOMContentLoaded', function () {
     //eventlistener setup
     //
 
-    document.getElementById('chat-open').addEventListener('click', chatWindowSetup);
+    document.getElementById('chat-open').addEventListener('click', chatWindowSetup);//button event listener
 
-    document.getElementById('user-name').addEventListener('change', function () {
+    document.getElementById('user-name').addEventListener('change', function () {//updates textboxes when text changes
         chrome.storage.sync.set({ "name": document.getElementById("user-name").value });
     });
     document.getElementById('user-id').addEventListener('change', function () {
         chrome.storage.sync.set({ "user": document.getElementById("user-id").value });
     });
-    document.getElementById('server-url').addEventListener('change', function () {
-        chrome.storage.sync.set({ "serverurl": document.getElementById("server-url").value });
-    });
-    //
-    //sets up the username
-    //
-    if (document.getElementById("user-name").value == "") {
+    // document.getElementById('server-url').addEventListener('change', function () {
+    //     chrome.storage.sync.set({ "serverurl": document.getElementById("server-url").value });
+    // });
+    
+
+    if (document.getElementById("user-name").value == "") {//sets display name to currently saved value
         chrome.storage.sync.get(["name"], function (result) {
             if (result.value != "") {
                 document.getElementById("user-name").value = result.name;
@@ -35,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (document.getElementById("user-id").value == "") {
+    if (document.getElementById("user-id").value == "") {//sets username value to currently save value
         chrome.storage.sync.get(["user"], function (result) {
             if (result.user != "") {
                 document.getElementById("user-id").value = result.user;
@@ -46,37 +45,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    if (document.getElementById("server-url").value == "") {
-        chrome.storage.sync.get(["serverurl"], function (result) {
-            if (result.serverurl != "") {
-                document.getElementById("server-url").value = result.serverurl;
-            }
-            else {
-                document.getElementById("server-url").value = "";
-            }
-        });
-    }
+    // if (document.getElementById("server-url").value == "") {//sets url value to currently saved values
+    //     chrome.storage.sync.get(["serverurl"], function (result) {
+    //         if (result.serverurl != "") {
+    //             document.getElementById("server-url").value = result.serverurl;
+    //         }
+    //         else {
+    //             document.getElementById("server-url").value = "";
+    //         }
+    //     });
+    // }
 
 });
 
-function urlGet(message) {
+
+function urlGet() {//takes the url
 
     let w = 320;
     let h = 350;
-    var server = "";//defautl url
-    chrome.storage.sync.get(['serverurl'], function(result){
-        if(result.serverurl != "")
-        server = result.serverurl;
-        else{
-            server = "localhost:4321"
-        }
-    })
+    //var server = "";//defautl url
+    // chrome.storage.sync.get(['serverurl'], function(result){
+    //     if(result.serverurl != "")
+    //     server = result.serverurl;
+    //     else{
+    //         server = "localhost:4321"
+    //     }
+    // })
     var id = '';
-    chrome.storage.sync.get(['userID'], function (result) {
+    chrome.storage.sync.get(['userID'], function (result) {//gets prestored value
         id = result.userID;
     });
     
-    if (document.getElementById("user-id").value != "") {
+    if (document.getElementById("user-id").value != "") {//if value is changed, default id will be overridden
         id = document.getElementById("user-id").value;
     }
 
@@ -89,11 +89,11 @@ function urlGet(message) {
     chrome.tabs.query(params, function (tabs) {
 
         let msg = {
-            message: message
+            message: 'url'
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
             if(message == "url"){
-                var myUrl = "https://"+ server + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
+                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + response.url + "&" + "n=" + document.getElementById("user-name").value + "&id=" + id;
                 var title = parseURL(myUrl) + " chat";
                 openWindow(myUrl, title, w, h);
             }
@@ -124,7 +124,7 @@ function chatWindowSetup() {
         sendAlert("You must enter a display name");
         return;
     }
-    urlGet('url');
+    urlGet();
 }
 //parseURL(urlGet('url'))
 

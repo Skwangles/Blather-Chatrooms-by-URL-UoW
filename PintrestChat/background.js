@@ -4,7 +4,7 @@ chrome.runtime.onInstalled.addListener(function () {
     //
     //enter default url here
     //
-    chrome.storage.sync.set({ "serverurl": "" });
+    //chrome.storage.sync.set({ "serverurl": "" });
     
     chrome.storage.sync.set({ "userID": Date.now() });
 });
