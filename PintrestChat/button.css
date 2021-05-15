@@ -1,5 +1,8 @@
-button{
+body {
+    margin: 20px;
+}
 
+button{
     border-style: none;
     border-radius: 6px;
     padding: 7px;
@@ -20,6 +23,52 @@ input{
     border: none;
     border-radius: 6px;
     padding: 7px;
+    margin-bottom: 5px;
     background-color: rgb(224, 224, 224);
     color: rgb(100, 100, 100);
+}
+
+[data-tip] {
+    position: relative;
+}
+
+[data-tip]::before {
+    content: '';
+    display: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    position: absolute;
+    top: 30px;
+    left: 35px;
+    z-index: 8;
+    font-size: 0;
+    line-height: 0;
+    width: 0;
+    height: 0;
+}
+
+[data-tip]::after {
+    display: none;
+    content: attr(data-tip);
+    position: absolute;
+    top: 15x;
+    left: 0px;
+    padding: 5px 8px;
+    background: #272727;
+    color: #fff;
+    z-index: 9;
+    font-size: 0.75em;
+    height: 18px;
+    line-height: 18px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
+[data-tip]:hover:before, [data-tip]:hover:after {
+    display: block;
+    transition: 0.3s;
 }
