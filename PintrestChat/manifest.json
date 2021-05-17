@@ -27,6 +27,9 @@
     "matches": ["<all_urls>"],
     "js":["Content.js"]
   }
+  ],
+  "web_accessible_resources":[
+  "button.html"
   ]
  
 }
