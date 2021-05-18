@@ -5,13 +5,6 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
 
 document.addEventListener('DOMContentLoaded', function () 
 {
-  
-  document.getElementById("item-button").addEventListener('click', function () {
-    console.log("recieved click");
-
-
-
-  });
 });
 
 
