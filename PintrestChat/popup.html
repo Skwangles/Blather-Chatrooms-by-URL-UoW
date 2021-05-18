@@ -2,14 +2,20 @@
 <html>
 
 <head>
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
+  <!-- Keeping this Font Awesome link just in case it's being used elsewhere -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css">
+  <!-- Font Awesome 4 (from W3schools)-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="popup.css">
   <script src="popup.js"></script>
 </head>
 
 <body>
+  <h1>More Pinteresting.</h1>
   <p>Create a private chat on this page. Simple!</p>
+  
   <div data-tip="This will be your unique ID">
     <input id="user-id" placeholder="Username (optional)">
   </div>
@@ -18,8 +24,9 @@
     <input id="user-name" placeholder="Display Name">
   </div>
 
-  <button id="chat-open">Chat Here</button>
+  <button id="chat-open"><i class="fa fa-comment"></i>Chat Here</button>
   <p id="errors"></p>
 </body>
 
+</html>
 </html>

@@ -2,34 +2,58 @@
 <html>
 
 <head>
-
+  <!-- These links don't work in some websites for some reason -->
+  <!--<link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
 </head>
+
+<style>
+  .floating-chat-button, #item-button {
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .floating-chat-button {
+    position: absolute;
+    height: auto;
+    width: auto;
+    display: block;
+    z-index: 99;
+  }
+
+  #item-button {
+    position: fixed;
+    border-style: none;
+    background-color: rgb(224, 44, 44);
+    color: white;
+    font-weight: bold;
+    padding: 11px 15px;
+    border-radius: 8px;
+    bottom: 15px;
+    right: 15px;
+    display: block;
+    transition: 0.3s;
+  }
+
+  #item-button:hover {
+    background-color: rgb(207, 207, 207);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 10px 0 rgba(0, 0, 0, 0.05);
+    color: rgb(24, 24, 24);
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  /* Icon styling. Currently disabled because the icon itself doesn't load in some websites. */
+  /*#item-button i {
+    padding-right: 5px;
+  }*/
+</style>
 
 <body>
   <div class="floating-chat-button">
-    <style>
-       .floating-chat-button{
-        position: absolute;
-        height: auto;
-        width: auto;
-        bottom: 10px;
-        right: 10px;
-        display: block;
-        z-index: 1
-        ;
-      }
-      #item-button{
-        position: fixed;
-        height: 20px;
-        bottom: 10px;
-        right: 10px;
-        display: block;
-      }
-    </style>
-    <button id="item-button">Open Chat</button>
+    <button id="item-button"><!--<i class="fa fa-comment"></i>-->Open Chat</button>
     <script src="Content.js"></script>
   </div>
-
-  <body>
+<body>
 
 </html>
