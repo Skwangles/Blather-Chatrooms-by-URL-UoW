@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function urlGet() {//takes the url
 
     let w = 400;
-    let h = 500;
+    let h = 520;
     //var server = "";//defautl url
     // chrome.storage.sync.get(['serverurl'], function(result){
     //     if(result.serverurl != "")
