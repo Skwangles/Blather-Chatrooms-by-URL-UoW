@@ -32,7 +32,7 @@
     "resources":["button.html"],
     "matches":["<all_urls>"],
     "exclude_matches":[
-      "https://more-pinteresting.web.app/*"
+      "http*://more-pinteresting.web.*/*"
     ]
   }
   ]
