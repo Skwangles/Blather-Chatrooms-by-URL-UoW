@@ -7,10 +7,8 @@ chrome.runtime.onInstalled.addListener(function () {
     });
     
 });
-
-document.addEventListener("DOMContentLoaded", function(){
     chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
-        console.log("recieved!");
+        console.log("recieved! - Background");
         if (response.message == "chatWindow") {
             chatWindowSetup();
             
@@ -20,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function(){
             sendAlert(response.message);
         }
     });
-});
+
 
 
 
@@ -48,12 +46,12 @@ async function urlGet() {//takes the url
         let msg = {
             message: 'urll'
         }
-
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
 
             var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + parseURL(response.urll) + "&" + "n=" + name + "&id=" + myID;
             var title = parseURL(myUrl) + " chat";
-            chrome.runtime.sendMessage({url:myUrl, title:title});
+            console.log("sending open request");
+            chrome.tabs.sendMessage(tabs[0].id,{url:myUrl, title:title});
 
         });
 
@@ -126,13 +124,13 @@ function chatWindowSetup() {
 
 
 function parseURL(loc) {//removes the https://pintrest.nz part of the url
-    loc = loc.replace("https", "");//covers both http and https
-    loc = loc.replace("http", "");
+    loc = loc.replace("https://", "");//covers both http and https
+    loc = loc.replace("http://", "");
     //loc = loc.replace("://pintrest", "");//removes name so .com or .nz is at the front
     //loc = loc.replace(".com", ".nz");//
     var n = loc.indexOf("?");
     if (n >= 0) {
-        loc.slice(0, n);//cuts any items with ?= on the end.
+       loc =  loc.slice(0, n);//cuts any items with ?= on the end.
     }
     //loc = loc.slice(3);//leaves just "/boardname/number" -- possibly hash
     return loc;

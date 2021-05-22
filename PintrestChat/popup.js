@@ -1,20 +1,19 @@
 var pageURL = "";
 document.addEventListener('DOMContentLoaded', function () {
 
-
-    chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
-        let w = 400;
-        let h = 520;
-        if (response != null && response.url != "" && response.url != null && response.title != "" && response.title != null) {
-            openWindow(response.url, response.title, w, h)
-        }
-    });
     //
     //eventlistener setup
     //
 
     document.getElementById('chat-open').addEventListener('click', setup);//button event listener
-
+    document.getElementById("showOpenChat").addEventListener('change', function(){
+        if(document.getElementById("showOpenChat").checked == true){
+            sendMsg("show");
+        }
+        else{
+            sendMsg("hide");
+        }
+    });
     document.getElementById('user-name').addEventListener('change', function () {//updates textboxes when text changes
         chrome.storage.sync.set({ "name": document.getElementById("user-name").value });
     });
@@ -47,21 +46,34 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+//
+//End of DOM load
+//
+function sendMsg(mess){
+    let params =
+    {
+        active: true,
+        currentWindow: true
+    }
+chrome.tabs.query(params, function (tabs) {
+    let msg = {
+        message: mess
+    }
+    chrome.tabs.sendMessage(tabs[0].id, msg);
+});
+}
 
 function setup() {
     chrome.storage.sync.get(["name"], function (result) {
         if (result.name != "") {
-            console.log("Send!!!");
+            console.log("Sent - popup!!!");
             chrome.runtime.sendMessage({ message: "chatWindow" });
         }
         else {
+            console.log("Popup-no name");
             chrome.runtime.sendMessage({ message: "Please enter a Display Name into the Pinterest Chat settings" });
         }
     });
 }
 
-function openWindow(myUrl, title, w, h) {
-    var left = screen.width - w;
-    var top = screen.height - h;
-    window.open(myUrl, title, "toolbar, location=yes,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
-}
+
