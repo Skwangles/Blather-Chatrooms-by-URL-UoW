@@ -8,12 +8,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('chat-open').addEventListener('click', setup);//button event listener
     document.getElementById("showOpenChat").addEventListener('change', function () {
         if (document.getElementById("showOpenChat").checked == true) {
-            sendMsg("show");
             chrome.storage.sync.set({ "hidden": "false" });
+            sendMsg("show");
         }
         else {
-            sendMsg("hide");
             chrome.storage.sync.set({ "hidden": "true" });
+            sendMsg("hide");
+            
         }
     });
     document.getElementById('user-name').addEventListener('change', function () {//updates textboxes when text changes
@@ -38,9 +39,11 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
         if (result.hidden == "true") {
             document.getElementById("showOpenChat").checked = false;
+            sendMsg("show");
         }
         else {
             document.getElementById("showOpenChat").checked = true;
+            sendMsg("hide");
         }
     });
 
