@@ -1,44 +1,29 @@
-chrome.runtime.onInstalled.addListener(function () {
-
+chrome.runtime.onInstalled.addListener(function () {//defines default values
     chrome.storage.sync.set({
         "user": "",
         "name": "",
-        "userID": Date.now()
+        "userID": Date.now()//gives a random number, based on the very second you install the extension
     });
-    
 });
-    chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
-        console.log("recieved! - Background");
-        if (response.message == "chatWindow") {
-            chatWindowSetup();
-            
-        }
-        else if (response.message != "") {
-            console.log("Alert");
-            sendAlert(response.message);
-        }
-    });
 
+chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
+    console.log("recieved! - Background");
+    if (response.message == "chatWindow") {
+        chatWindowSetup();
+    }
+    else if (response.message != "") {//any different message with open a popup
+        console.log("Alert");
+        sendAlert(response.message);
+    }
+});
 
-
-
-async function urlGet() {//takes the url
-    //var server = "";//defautl url
-    // chrome.storage.sync.get(['serverurl'], function(result){
-    //     if(result.serverurl != "")
-    //     server = result.serverurl;
-    //     else{
-    //         server = "localhost:4321"
-    //     }
-    // })
-    console.log(getID());
-    console.log(getName());
+async function urlGet() {//gets the url of page and parses the URL
     let params =
     {
         active: true,
         currentWindow: true
     }
-    var name = await getName();
+    var name = await getName();//gets the name and id stored in chrome memory
     var myID = await getID();
 
     chrome.tabs.query(params, function (tabs) {
@@ -47,19 +32,14 @@ async function urlGet() {//takes the url
             message: 'urll'
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
-
-            var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + parseURL(response.urll) + "&" + "n=" + name + "&id=" + myID;
+            var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + parseURL(response.urll) + "&" + "n=" + name + "&id=" + myID;//formulates board id, username and id
             var title = parseURL(myUrl) + " chat";
-            console.log("sending open request");
-            chrome.tabs.sendMessage(tabs[0].id,{url:myUrl, title:title});
-
+            console.log("sending open request");//
+            chrome.tabs.sendMessage(tabs[0].id, { url: myUrl, title: title });//Tells Content script to open new window
         });
-
-
     });
 
 }
-
 
 function sendAlert(message) {
     let params =
@@ -119,9 +99,6 @@ function chatWindowSetup() {
     console.log("setups");
     urlGet();
 }
-//parseURL(urlGet('url'))
-
-
 
 function parseURL(loc) {//removes the https://pintrest.nz part of the url
     loc = loc.replace("https://", "");//covers both http and https
@@ -130,7 +107,7 @@ function parseURL(loc) {//removes the https://pintrest.nz part of the url
     //loc = loc.replace(".com", ".nz");//
     var n = loc.indexOf("?");
     if (n >= 0) {
-       loc =  loc.slice(0, n);//cuts any items with ?= on the end.
+        loc = loc.slice(0, n);//cuts any items with ?= on the end.
     }
     //loc = loc.slice(3);//leaves just "/boardname/number" -- possibly hash
     return loc;
