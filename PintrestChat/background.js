@@ -2,7 +2,8 @@ chrome.runtime.onInstalled.addListener(function () {
     chrome.storage.sync.set({
         "user": "",
         "name": "",
-        "userID": Date.now()//gives a random number, based on the very second you install the extension
+        "userID": Date.now(),//gives a random number, based on the very second you install the extension
+        "hidden":"true"
     });
 });//defines default values
 
