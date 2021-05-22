@@ -19,27 +19,25 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
 
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log("recieved - Popup");
-  
   console.log("recieved - Content js");
-  if ( 'url' in request && 'title' in request) {
+  if ( 'url' in request && 'title' in request) {//opens chat window
     console.log("url in request");
     let w = 400;
   let h = 520;
     openWindow(request.url, request.title, w, h);
   }
-  else if (request.message == "urll") {
+  else if (request.message == "urll") {//returns page url
     sendResponse({ urll: window.location.href });
   }
-  else if (request.message == "hide") {
+  else if (request.message == "hide") {//hides floating chat button
     console.log("hidden button");
     document.getElementById("item-button").style.display = "none";
   }
-  else if (request.message == "show") {
+  else if (request.message == "show") {//shows floating chat button
     console.log("showed button");
     document.getElementById("item-button").style.display = "block";
   }
-  else if (request.message != "") {
+  else if (request.message != "") {//Alerts user to any areas.
     alert(request.message);
     sendResponse({ urll: null });
   }
