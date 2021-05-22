@@ -1,15 +1,15 @@
-chrome.runtime.onInstalled.addListener(function () {//defines default values
+chrome.runtime.onInstalled.addListener(function () {
     chrome.storage.sync.set({
         "user": "",
         "name": "",
         "userID": Date.now()//gives a random number, based on the very second you install the extension
     });
-});
+});//defines default values
 
 chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
     console.log("recieved! - Background");
     if (response.message == "chatWindow") {
-        chatWindowSetup();
+        processURL();
     }
     else if (response.message != "") {//any different message with open a popup
         console.log("Alert");
@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
     }
 });
 
-async function urlGet() {//gets the url of page and parses the URL
+async function processURL() {//gets the url of page and parses the URL
     let params =
     {
         active: true,
@@ -41,20 +41,18 @@ async function urlGet() {//gets the url of page and parses the URL
 
 }
 
-function sendAlert(message) {
-    let params =
-    {
-        active: true,
-        currentWindow: true
+function parseURL(loc) {//removes the https://pintrest.nz part of the url
+    loc = loc.replace("https://", "");//covers both http and https
+    loc = loc.replace("http://", "");
+    //---Remove if wanting to use url variables in chat id
+    var n = loc.indexOf("?");
+    if (n >= 0) {
+        loc = loc.slice(0, n);//cuts any items with ?= on the end.
     }
-    chrome.tabs.query(params, function (tabs) {
-
-        let msg = {
-            message: message
-        }
-        chrome.tabs.sendMessage(tabs[0].id, msg);
-    });
+    //---
+    return loc;
 }
+
 
 async function getName() {
     return new Promise((resolve, reject) => {
@@ -92,23 +90,18 @@ async function getID() {
     });
 }
 
-//defines item in storage
 
-function chatWindowSetup() {
-    //If empty, return alert.
-    console.log("setups");
-    urlGet();
-}
-
-function parseURL(loc) {//removes the https://pintrest.nz part of the url
-    loc = loc.replace("https://", "");//covers both http and https
-    loc = loc.replace("http://", "");
-    //loc = loc.replace("://pintrest", "");//removes name so .com or .nz is at the front
-    //loc = loc.replace(".com", ".nz");//
-    var n = loc.indexOf("?");
-    if (n >= 0) {
-        loc = loc.slice(0, n);//cuts any items with ?= on the end.
+function sendAlert(message) {
+    let params =
+    {
+        active: true,
+        currentWindow: true
     }
-    //loc = loc.slice(3);//leaves just "/boardname/number" -- possibly hash
-    return loc;
+    chrome.tabs.query(params, function (tabs) {
+
+        let msg = {
+            message: message
+        }
+        chrome.tabs.sendMessage(tabs[0].id, msg);
+    });
 }
