@@ -5,8 +5,11 @@ chrome.runtime.onInstalled.addListener(function () {
         "name": "",
         "userID": Date.now()
     });
+    
+});
+
+document.addEventListener("DOMContentLoaded", function(){
     chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
-        
         console.log("recieved!");
         if (response.message == "chatWindow") {
             chatWindowSetup();
@@ -18,6 +21,8 @@ chrome.runtime.onInstalled.addListener(function () {
         }
     });
 });
+
+
 
 async function urlGet() {//takes the url
     //var server = "";//defautl url

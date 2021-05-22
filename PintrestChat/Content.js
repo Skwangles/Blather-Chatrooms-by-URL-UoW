@@ -6,7 +6,7 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
     
     chrome.storage.sync.get(["name"], function (result) {
       if (result.name != "") {
-        console.log("Send!!!");
+        console.log("Sent!!!");
         chrome.runtime.sendMessage({ message: "chatWindow" });
       }
       else {
