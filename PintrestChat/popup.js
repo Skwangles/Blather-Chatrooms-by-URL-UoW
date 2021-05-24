@@ -36,16 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-        if (result.hidden == "true") {
-            document.getElementById("showOpenChat").checked = false;
-            sendMsg("show");
-        }
-        else {
-            document.getElementById("showOpenChat").checked = true;
-            sendMsg("hide");
-        }
-    });
+    
 
 
     if (document.getElementById("user-id").value == "") {//sets username value to currently save value
