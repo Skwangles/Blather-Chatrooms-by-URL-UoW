@@ -18,6 +18,21 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+        if (result.hidden == "true") {
+            document.getElementById("showOpenChat").checked = false;
+            sendMsg("show");
+        }
+        else {
+            document.getElementById("showOpenChat").checked = true;
+            sendMsg("hide");
+        }
+    });
+});
+
+
+
 async function processURL() {//gets the url of page and parses the URL
     let params =
     {
