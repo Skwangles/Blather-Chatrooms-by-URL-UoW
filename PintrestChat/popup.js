@@ -4,18 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //eventlistener setup
     //
-    chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the popup
-        console.log("recieved! - Popup.js");
-
-        if (response.order == "true") {
-            document.getElementById("showOpenChat").checked = true;
-        }
-        else if (response.order == "false") {
-            document.getElementById("showOpenChat").checked = false;
-        }
-    });
-
-
+   
     //
     //Button Even listener
     //
@@ -39,12 +28,12 @@ document.addEventListener('DOMContentLoaded', function () {
     //Advanced setting state update check and definition
     document.getElementById("showUsername").addEventListener('change', function () {
         if (document.getElementById("showUsername").checked == true) {
-            chrome.storage.sync.set({ "advanced": "false" });
-            document.getElementById("user-id").style.display = "none";
-        }
-        else {
             chrome.storage.sync.set({ "advanced": "true" });
             document.getElementById("user-id").style.display = "block";
+        }
+        else {
+            chrome.storage.sync.set({ "advanced": "false" });
+            document.getElementById("user-id").style.display = "none";
 
         }
     });
@@ -101,12 +90,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     chrome.storage.sync.get(["advanced"], function (result) {//sets check box to currently saved status
         if (result.advanced == "true") {
-            document.getElementById("showUsername").checked = false;
-            document.getElementById("user-id").style.display = "none";
-        }
-        else if (result.advanced == "false") {
             document.getElementById("showUsername").checked = true;
             document.getElementById("user-id").style.display = "block";
+        }
+        else if (result.advanced == "false") {
+            document.getElementById("showUsername").checked = false;
+            document.getElementById("user-id").style.display = "none";
         }
     });
 
