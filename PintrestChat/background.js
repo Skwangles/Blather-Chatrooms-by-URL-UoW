@@ -3,7 +3,8 @@ chrome.runtime.onInstalled.addListener(function () {
         "user": "",
         "name": "",
         "userID": Date.now(),//gives a random number, based on the very second you install the extension
-        "hidden": "true"
+        "hidden": "true",
+        "advanced":"false"
     });
 });//defines default values
 
@@ -20,11 +21,11 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
 
 chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
     if (result.hidden == "true") {
+        console.log("show check");
         sendMsg("show");
     }
-    else {
-
-        document.getElementById("showOpenChat").checked = true;
+    else if (result.hidden == "false") {
+        console.log("hide check");
         sendMsg("hide");
     }
 });
@@ -114,6 +115,20 @@ function sendAlert(message) {
 
         let msg = {
             message: message
+        }
+        chrome.tabs.sendMessage(tabs[0].id, msg);
+    });
+}
+
+function sendMsg(mess) {
+    let params =
+    {
+        active: true,
+        currentWindow: true
+    }
+    chrome.tabs.query(params, function (tabs) {
+        let msg = {
+            message: mess
         }
         chrome.tabs.sendMessage(tabs[0].id, msg);
     });

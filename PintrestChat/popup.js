@@ -4,17 +4,26 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //eventlistener setup
     //
-    chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
+    chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the popup
         console.log("recieved! - Popup.js");
-        if (response.message == "hide") {
+
+        if (response.order == "true") {
             document.getElementById("showOpenChat").checked = true;
         }
-        else if (response.message == "show") {//any different message with open a popup
+        else if (response.order == "false") {
             document.getElementById("showOpenChat").checked = false;
         }
     });
 
+
+    //
+    //Button Even listener
+    //
     document.getElementById('chat-open').addEventListener('click', setup);//button event listener
+
+    //
+    //Checkbox state update check and definition
+    //
     document.getElementById("showOpenChat").addEventListener('change', function () {
         if (document.getElementById("showOpenChat").checked == true) {
             chrome.storage.sync.set({ "hidden": "false" });
@@ -26,6 +35,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
     });
+
+    //Advanced setting state update check and definition
+    document.getElementById("showUsername").addEventListener('change', function () {
+        if (document.getElementById("showUsername").checked == true) {
+            chrome.storage.sync.set({ "advanced": "false" });
+            document.getElementById("user-id").style.display = "none";
+        }
+        else {
+            chrome.storage.sync.set({ "advanced": "true" });
+            document.getElementById("user-id").style.display = "block";
+
+        }
+    });
+
+    //
+    //Textboxes state update check and definition
+    //
     document.getElementById('user-name').addEventListener('change', function () {//updates textboxes when text changes
         chrome.storage.sync.set({ "name": document.getElementById("user-name").value });
     });
@@ -34,7 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-
+    //
+    //Text boxes initial state setter
+    //
     if (document.getElementById("user-name").value == "") {//sets display name to currently saved value
         chrome.storage.sync.get(["name"], function (result) {
             if (result.value != "") {
@@ -46,6 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //
+    //Text boxes initial state setter
+    //
     if (document.getElementById("user-id").value == "") {//sets username value to currently save value
         chrome.storage.sync.get(["user"], function (result) {
             if (result.user != "") {
@@ -57,9 +88,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    //
+    //Checkbox initial state setter
+    //
+    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+        if (result.hidden == "true") {
+            document.getElementById("showOpenChat").checked = false;
+        }
+        else if (result.hidden == "false") {
+            document.getElementById("showOpenChat").checked = true;
+        }
+    });
+    chrome.storage.sync.get(["advanced"], function (result) {//sets check box to currently saved status
+        if (result.advanced == "true") {
+            document.getElementById("showUsername").checked = false;
+            document.getElementById("user-id").style.display = "none";
+        }
+        else if (result.advanced == "false") {
+            document.getElementById("showUsername").checked = true;
+            document.getElementById("user-id").style.display = "block";
+        }
+    });
+
 });
 //
 //End of DOM load
+//
+
+//
+//Send message to content.js
 //
 function sendMsg(mess) {
     let params =
@@ -75,6 +132,10 @@ function sendMsg(mess) {
     });
 }
 
+
+//
+//Checks for name and alerts
+//
 function setup() {
     chrome.storage.sync.get(["name"], function (result) {
         if (result.name != "") {
