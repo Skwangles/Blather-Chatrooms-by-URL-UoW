@@ -4,6 +4,15 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //eventlistener setup
     //
+    chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
+        console.log("recieved! - Popup.js");
+        if (response.message == "hide") {
+            document.getElementById("showOpenChat").checked = true;
+        }
+        else if (response.message == "show") {//any different message with open a popup
+            document.getElementById("showOpenChat").checked = false;
+        }
+    });
 
     document.getElementById('chat-open').addEventListener('click', setup);//button event listener
     document.getElementById("showOpenChat").addEventListener('change', function () {
@@ -14,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
         else {
             chrome.storage.sync.set({ "hidden": "true" });
             sendMsg("hide");
-            
+
         }
     });
     document.getElementById('user-name').addEventListener('change', function () {//updates textboxes when text changes
@@ -36,8 +45,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    
-
 
     if (document.getElementById("user-id").value == "") {//sets username value to currently save value
         chrome.storage.sync.get(["user"], function (result) {
