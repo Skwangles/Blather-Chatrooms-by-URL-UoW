@@ -3,14 +3,11 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
   document.body.insertAdjacentHTML('beforeend', html);
   // not using innerHTML as it would break js event listeners of the page
   document.getElementById('item-button').addEventListener("click", function () {
-
     chrome.storage.sync.get(["name"], function (result) {
       if (result.name != "") {
-        console.log("Sent - Contentjs");
         chrome.runtime.sendMessage({ message: "chatWindow" });
       }
       else {
-        console.log("Not Sent - content js");
         alert("Please enter your display name in the Pinterest Chat settings");
       }
     });
@@ -18,24 +15,35 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
 });
 
 
+//Button doesn't load upon page refresh. Needs status update by clicking extension icon.
+// chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+//   if (changeInfo.status == 'complete') {
+//     chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+//       if (result.hidden == "false") {
+//         showButton(true);
+//       }
+//       else if (result.hidden == "true") {
+//         showButton(false);
+//       }
+//     });
+//   }
+// })
+
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  console.log("recieved - Content js");
-  if ( 'url' in request && 'title' in request) {//opens chat window
-    console.log("url in request");
+  if ('url' in request && 'title' in request) {//opens chat window
     let w = 400;
-  let h = 520;
+    let h = 520;
     openWindow(request.url, request.title, w, h);
   }
   else if (request.message == "urll") {//returns page url
     sendResponse({ urll: window.location.href });
   }
   else if (request.message == "hide") {//hides floating chat button
-    console.log("hidden button");
-    document.getElementById("item-button").style.display = "none";
+    showButton(false);
   }
   else if (request.message == "show") {//shows floating chat button
-    console.log("showed button");
-    document.getElementById("item-button").style.display = "block";
+    showButton(true);
   }
   else if (request.message != "") {//Alerts user to any areas.
     alert(request.message);
@@ -48,4 +56,15 @@ function openWindow(myUrl, title, w, h) {
   var left = screen.width - w;
   var top = screen.height - h;
   window.open(myUrl, title, "toolbar, location=yes,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
+}
+
+function showButton(isShown) {
+  if (!isShown) {//hides floating chat button
+    console.log("hidden button");
+    document.getElementById("item-button").style.display = "none";
+  }
+  else if (isShown) {//shows floating chat button
+    console.log("showed button");
+    document.getElementById("item-button").style.display = "block";
+  }
 }

@@ -99,6 +99,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    //
+    //Just in case background doesn't fire. Update here
+    //
+    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+        if (result.hidden == "false") {
+            console.log("show check");
+            sendMsg("show");
+        }
+        else if (result.hidden == "true") {
+            console.log("hide check");
+            sendMsg("hide");
+        }
+    });
 });
 //
 //End of DOM load
