@@ -3,8 +3,7 @@ chrome.runtime.onInstalled.addListener(function () {
         "user": "",
         "name": "",
         "userID": Date.now(),//gives a random number, based on the very second you install the extension
-        "hidden": "true",
-        "advanced":"false"
+        "hidden": "true"
     });
 });//defines default values
 

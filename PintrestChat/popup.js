@@ -25,27 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    //Advanced setting state update check and definition
-    document.getElementById("showUsername").addEventListener('change', function () {
-        if (document.getElementById("showUsername").checked == true) {
-            chrome.storage.sync.set({ "advanced": "true" });
-            document.getElementById("user-id").style.display = "block";
-        }
-        else {
-            chrome.storage.sync.set({ "advanced": "false" });
-            document.getElementById("user-id").style.display = "none";
-
-        }
-    });
-
     //
     //Textboxes state update check and definition
     //
     document.getElementById('user-name').addEventListener('change', function () {//updates textboxes when text changes
         chrome.storage.sync.set({ "name": document.getElementById("user-name").value });
-    });
-    document.getElementById('user-id').addEventListener('change', function () {
-        chrome.storage.sync.set({ "user": document.getElementById("user-id").value });
     });
 
 
@@ -64,20 +48,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     //
-    //Text boxes initial state setter
-    //
-    if (document.getElementById("user-id").value == "") {//sets username value to currently save value
-        chrome.storage.sync.get(["user"], function (result) {
-            if (result.user != "") {
-                document.getElementById("user-id").value = result.user;
-            }
-            else {
-                document.getElementById("user-id").value = "";
-            }
-        });
-    }
-
-    //
     //Checkbox initial state setter
     //
     chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
@@ -86,16 +56,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         else if (result.hidden == "false") {
             document.getElementById("showOpenChat").checked = true;
-        }
-    });
-    chrome.storage.sync.get(["advanced"], function (result) {//sets check box to currently saved status
-        if (result.advanced == "true") {
-            document.getElementById("showUsername").checked = true;
-            document.getElementById("user-id").style.display = "block";
-        }
-        else if (result.advanced == "false") {
-            document.getElementById("showUsername").checked = false;
-            document.getElementById("user-id").style.display = "none";
         }
     });
 

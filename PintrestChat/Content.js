@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 function openWindow(myUrl, title, w, h) {
   var left = screen.width - w;
   var top = screen.height - h;
-  window.open(myUrl, title, "toolbar, location=yes,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
+  window.open(myUrl, title, "toolbar, location=no,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
 }
 
 function showButton(isShown) {
