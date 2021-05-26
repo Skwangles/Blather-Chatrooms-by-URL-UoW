@@ -4,11 +4,11 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
   // not using innerHTML as it would break js event listeners of the page
   document.getElementById('item-button').addEventListener("click", function () {
     chrome.storage.sync.get(["name"], function (result) {
-      if (result.name != "") {
+      if (result.name != "" && result.name != null) {
         chrome.runtime.sendMessage({ message: "chatWindow" });
       }
       else {
-        alert("Please enter your display name in the Pinterest Chat settings");
+        alert("Please enter a display name in the Pinterest Chat settings");
       }
     });
   });
