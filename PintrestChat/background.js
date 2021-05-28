@@ -58,6 +58,7 @@ async function processURL() {//gets the url of page and parses the URL
                 chrome.tabs.sendMessage(tabs[0].id, { url: myUrl, title: title });//Tells Content script to open new window
             }
             catch {
+                alert("Oops, there was an error opening a Chrome Chat on the webpage!");
                 let w = 400;
                 let h = 520;
                 var left = screen.width - w;
