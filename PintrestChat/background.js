@@ -45,10 +45,27 @@ async function processURL() {//gets the url of page and parses the URL
             message: 'urll'
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
+            try{
             var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + parseURL(response.urll) + "&" + "n=" + name + "&id=" + myID;//formulates board id, username and id
             var title = parseURL(myUrl) + " chat";
-            console.log("sending open request");//
-            chrome.tabs.sendMessage(tabs[0].id, { url: myUrl, title: title });//Tells Content script to open new window
+            }
+            catch{
+                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + "default" + "&" + "n=" + name + "&id=" + myID;
+                var title = "Default" + " chat";
+            }
+            console.log("sending open request");
+            try {
+                chrome.tabs.sendMessage(tabs[0].id, { url: myUrl, title: title });//Tells Content script to open new window
+            }
+            catch {
+                let w = 400;
+                let h = 520;
+                var left = screen.width - w;
+                var top = screen.height - h;
+                window.open(myUrl, title, "toolbar, location=no,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
+
+
+            }
         });
     });
 
