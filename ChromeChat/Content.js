@@ -33,7 +33,7 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if ('url' in request && 'title' in request) {//opens chat window
     let w = 400;
-    let h = 520;
+    let h = 620;
     openWindow(request.url, request.title, w, h);
   }
   else if (request.message == "urll") {//returns page url
