@@ -36,7 +36,8 @@ async function processURL() {//gets the url of page and parses the URL
         active: true,
         currentWindow: true
     }
-    var serverUrl = "https://more-pinteresting.web.app/";
+    // var serverUrl = "https://more-pinteresting.web.app/";
+    var serverUrl = "https://pinterestingvc.web.app/";
     var name = await getName();//gets the name and id stored in chrome memory
     var myID = await getID();
 
