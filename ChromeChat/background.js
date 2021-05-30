@@ -36,6 +36,7 @@ async function processURL() {//gets the url of page and parses the URL
         active: true,
         currentWindow: true
     }
+    var serverUrl = "https://more-pinteresting.web.app/";
     var name = await getName();//gets the name and id stored in chrome memory
     var myID = await getID();
 
@@ -46,11 +47,11 @@ async function processURL() {//gets the url of page and parses the URL
         }
         chrome.tabs.sendMessage(tabs[0].id, msg, {}, function (response) {
             try {
-                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + parseURL(response.urll) + "&" + "n=" + name + "&id=" + myID;//formulates board id, username and id
+                var myUrl = serverUrl + "?" + "b=" + parseURL(response.urll) + "&" + "n=" + name + "&id=" + myID;//formulates board id, username and id
                 var title = parseURL(myUrl) + " chat";
             }
             catch {
-                var myUrl = "https://more-pinteresting.web.app/" + "?" + "b=" + "default" + "&" + "n=" + name + "&id=" + myID;
+                var myUrl = serverUrl + "?" + "b=" + "default" + "&" + "n=" + name + "&id=" + myID;
                 var title = "Default chat"
             }
             console.log("sending open request");
