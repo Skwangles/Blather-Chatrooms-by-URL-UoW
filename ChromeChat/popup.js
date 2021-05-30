@@ -25,6 +25,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+        if (result.hidden == "true") {
+            document.getElementById("showOpenChat").checked = false;
+            console.log("hide check");
+            sendMsg("hide");
+        }
+        else if (result.hidden == "false") {
+            document.getElementById("showOpenChat").checked = true;
+            console.log("show check");
+            sendMsg("show");
+        }
+    });
     //
     //Textboxes state update check and definition
     //
@@ -50,28 +62,12 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //Checkbox initial state setter
     //
-    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-        if (result.hidden == "true") {
-            document.getElementById("showOpenChat").checked = false;
-        }
-        else if (result.hidden == "false") {
-            document.getElementById("showOpenChat").checked = true;
-        }
-    });
+   
 
     //
     //Just in case background doesn't fire. Update here
     //
-    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-        if (result.hidden == "false") {
-            console.log("show check");
-            sendMsg("show");
-        }
-        else if (result.hidden == "true") {
-            console.log("hide check");
-            sendMsg("hide");
-        }
-    });
+    
 });
 //
 //End of DOM load
