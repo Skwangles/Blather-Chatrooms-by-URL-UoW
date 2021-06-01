@@ -1,4 +1,7 @@
 
+//
+//Adds content script to page.
+//
 fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
   document.body.insertAdjacentHTML('beforeend', html);
   // not using innerHTML as it would break js event listeners of the page
@@ -8,7 +11,7 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
         chrome.runtime.sendMessage({ message: "chatWindow" });
       }
       else {
-        alert("Please enter a display name in the Pinterest Chat settings");
+        alert("Please enter a display name in the Pinterest Chat settings");//error handling
       }
     });
   });
@@ -32,18 +35,18 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(html => {
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if ('url' in request && 'title' in request) {//opens chat window
-    let w = 460;
-    let h = 620;
-    openWindow(request.url, request.title, w, h);
+    let chatWindowWidth = 460;//Window size settings
+    let chatWindowHeight = 620;
+    openChatWindow(request.url, request.title, chatWindowWidth, chatWindowHeight);
   }
   else if (request.message == "urll") {//returns page url
     sendResponse({ urll: window.location.href });
   }
   else if (request.message == "hide") {//hides floating chat button
-    showButton(false);
+    showHoveringButton(false);
   }
   else if (request.message == "show") {//shows floating chat button
-    showButton(true);
+    showHoveringButton(true);
   }
   else if (request.message != "") {//Alerts user to any areas.
     alert(request.message);
@@ -52,13 +55,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   return true;
 });
 
-function openWindow(myUrl, title, w, h) {
+function openChatWindow(myUrl, title, w, h) {
   var left = screen.width - w;
   var top = screen.height - h;
   window.open(myUrl, title, "toolbar, location=no,focused=" + true + ",resizable=no,width=" + w + ",height=" + h + ",top=" + top + ",left=" + left);
 }
 
-function showButton(isShown) {
+function showHoveringButton(isShown) {
   if (!isShown) {//hides floating chat button
     console.log("hidden button");
     document.getElementById("item-button").style.display = "none";

@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    //
+    //Check box update set
+    //
     chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
         if (result.hidden == "true") {
             document.getElementById("showOpenChat").checked = false;
@@ -37,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
             sendMsg("show");
         }
     });
+
+
     //
     //Textboxes state update check and definition
     //
@@ -70,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
 });
 //
-//End of DOM load
+//End of DOM load event listener
 //
 
 //
