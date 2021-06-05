@@ -26,7 +26,7 @@
 
   "content_scripts":[{
     "matches": ["https://*/*","http://*/*"],
-    "exclude_matches": ["*://more-pinteresting.web.app/*","*://pinterestingvc.web.app/*"],
+    "exclude_matches": ["*://pinterestingvc.web.app/*"],
     "js":["Content.js"]
     
   }
@@ -34,7 +34,7 @@
   "web_accessible_resources":[{
     "resources":["button.html"],
     "matches":["https://*/*","http://*/*"],
-    "exclude_matches": ["*://more-pinteresting.web.app/*","*://pinterestingvc.web.app/*"]
+    "exclude_matches": ["*://pinterestingvc.web.app/*"]
     
   }
   ]

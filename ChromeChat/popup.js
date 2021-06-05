@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //Button Even listener
     //
-    document.getElementById('chat-open').addEventListener('click', setup);//button event listener
+    document.getElementById('chat-open').addEventListener('click', emptyNameCheck);//button event listener
 
     //
     //Checkbox state update check and definition
@@ -16,11 +16,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("showOpenChat").addEventListener('change', function () {
         if (document.getElementById("showOpenChat").checked == true) {
             chrome.storage.sync.set({ "hidden": "false" });
-            sendMsg("show");
+            passMessageToContent("show");
         }
         else {
             chrome.storage.sync.set({ "hidden": "true" });
-            sendMsg("hide");
+            passMessageToContent("hide");
 
         }
     });
@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (result.hidden == "true") {
             document.getElementById("showOpenChat").checked = false;
             console.log("hide check");
-            sendMsg("hide");
+            passMessageToContent("hide");
         }
         else if (result.hidden == "false") {
             document.getElementById("showOpenChat").checked = true;
             console.log("show check");
-            sendMsg("show");
+            passMessageToContent("show");
         }
     });
 
@@ -81,13 +81,13 @@ document.addEventListener('DOMContentLoaded', function () {
 //
 //Send message to content.js
 //
-function sendMsg(mess) {
-    let params =
+function passMessageToContent(mess) {
+    let currentTabsSearchParameters =
     {
         active: true,
         currentWindow: true
     }
-    chrome.tabs.query(params, function (tabs) {
+    chrome.tabs.query(currentTabsSearchParameters, function (tabs) {
         let msg = {
             message: mess
         }
@@ -96,17 +96,13 @@ function sendMsg(mess) {
 }
 
 
-//
-//Checks for name and alerts
-//
-function setup() {
+
+function emptyNameCheck() {//checks for name otherwise fails
     chrome.storage.sync.get(["name"], function (result) {
         if (result.name != "") {
-            console.log("Sent - popup!!!");
             chrome.runtime.sendMessage({ message: "chatWindow" });
         }
         else {
-            console.log("Popup-no name");
             chrome.runtime.sendMessage({ message: "Please enter a Display Name into the Pinterest Chat settings" });
         }
     });
