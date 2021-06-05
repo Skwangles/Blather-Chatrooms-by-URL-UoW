@@ -68,6 +68,10 @@ function parseURL(urlString) {//removes the https:// part of the url so differen
     if (locationOfQMark >= 0) {
         urlString = urlString.slice(0, locationOfQMark);//cuts any items with ?= - to eliminate specific differences between users
     }
+    var locationOfHash = urlString.indexOf("#");
+    if (locationOfHash >= 0) {
+        urlString = urlString.slice(0, locationOfHash);//cuts any items with # - to eliminate specific differences between users and selections
+    }
     //---
     return urlString;
 }
