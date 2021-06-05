@@ -2,6 +2,7 @@
 //
 //Adds content script to page.
 //
+
 fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(injectHtml => {
   document.body.insertAdjacentHTML('beforeend', injectHtml);//inserts button.html into page
   // not using innerHTML as it would break js event listeners of the page
@@ -15,7 +16,26 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(injectHtml 
       }
     });
   });
+
+}).then(function () {
+  chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+    if (result.hidden == "true") {
+      showHoveringButton(false);//updates hidden button status
+    }
+    else if (result.hidden == "false") {
+      showHoveringButton(true);
+    }
+  });
 });
+
+// if (window.addEventListener) { // Mozilla, Netscape, Firefox
+//   window.addEventListener('load', WindowLoad, false);
+// } else if (window.attachEvent) { // IE
+//   window.attachEvent('onload', WindowLoad);
+// }
+// function WindowLoad() {
+
+// }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if ('url' in request && 'title' in request) {//opens chat window
