@@ -28,15 +28,6 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(injectHtml 
   });
 });
 
-// if (window.addEventListener) { // Mozilla, Netscape, Firefox
-//   window.addEventListener('load', WindowLoad, false);
-// } else if (window.attachEvent) { // IE
-//   window.attachEvent('onload', WindowLoad);
-// }
-// function WindowLoad() {
-
-// }
-
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if ('url' in request && 'title' in request) {//opens chat window
     let chatWindowWidth = 460;//Window size settings
