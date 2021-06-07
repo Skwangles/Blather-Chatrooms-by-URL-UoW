@@ -8,6 +8,11 @@ h1, p, button, input {
     font-family: 'Roboto', sans-serif;
 }
 
+/* Maximise screen width for the logo */
+img {
+    width: 100%;
+}
+
 /* Style the form button */
 button {
     border-style: none;
