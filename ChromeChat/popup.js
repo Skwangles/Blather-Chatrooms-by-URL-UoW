@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     document.getElementById("showOpenChat").addEventListener('change', function () {
         if (document.getElementById("showOpenChat").checked == true) {
-            chrome.storage.sync.set({ "hidden": "false" });
+            chrome.storage.sync.set({ "isHidden": "false" });
             passMessageToContent("show");
         }
         else {
-            chrome.storage.sync.set({ "hidden": "true" });
+            chrome.storage.sync.set({ "isHidden": "true" });
             passMessageToContent("hide");
 
         }
@@ -28,13 +28,13 @@ document.addEventListener('DOMContentLoaded', function () {
     //
     //Check box update set
     //
-    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-        if (result.hidden == "true") {
+    chrome.storage.sync.get(["isHidden"], function (result) {//sets check box to currently saved status
+        if (result.isHidden == "true") {
             document.getElementById("showOpenChat").checked = false;
             console.log("hide check");
             passMessageToContent("hide");
         }
-        else if (result.hidden == "false") {
+        else if (result.isHidden == "false") {
             document.getElementById("showOpenChat").checked = true;
             console.log("show check");
             passMessageToContent("show");

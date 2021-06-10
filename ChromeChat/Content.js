@@ -18,15 +18,21 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(injectHtml 
   });
 
 }).then(function () {
-  chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-    if (result.hidden == "true") {
+  runHiddenUpdate();
+});
+
+
+
+function runHiddenUpdate() {
+  chrome.storage.sync.get(["isHidden"], function (result) {//sets check box to currently saved status
+    if (result.isHidden == "true") {
       showHoveringButton(false);//updates hidden button status
     }
-    else if (result.hidden == "false") {
+    else if (result.isHidden == "false") {
       showHoveringButton(true);
     }
   });
-});
+}
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if ('url' in request && 'title' in request) {//opens chat window
@@ -59,7 +65,7 @@ function openChatWindow(pageURL, title, widthOfWindow, heightOfWindow) {
 
 function showHoveringButton(isShown) {
   if (!isShown) {//hides floating chat button
-    console.log("hidden button");
+    console.log("hidden button: " + Date.now());
     document.getElementById("item-button").style.display = "none";
   }
   else if (isShown) {//shows floating chat button

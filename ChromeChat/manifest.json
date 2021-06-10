@@ -6,7 +6,7 @@
   
 
   "permissions":[
-    "storage"
+    "storage", "tabs"
   ],
 
   "icons":{

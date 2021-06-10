@@ -2,13 +2,13 @@ chrome.runtime.onInstalled.addListener(function () {//sets up default values for
     chrome.storage.sync.set({
         "name": "",//display name
         "userID": Date.now().toString() + Math.ceil(Math.random()*100).toString(),//gives a random number to the user.
-        "hidden": "true"//defines if hovering button is hidden
+        "isHidden": "true"//defines if hovering button is hidden
     });
 });//defines default values
 
-chrome.tabs.onActiveChanged.addListener(function(){
-   runHiddenUpdate();
-});
+chrome.tabs.onActivated.addListener(function(){
+    runHiddenUpdate();
+  });
 
 chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
     console.log("recieved! - Background");
@@ -23,12 +23,12 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
 runHiddenUpdate();
 
 function runHiddenUpdate(){
-    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-        if (result.hidden == "true") {
-            passMessageToContent("show");//updates hidden button status
-        }
-        else if (result.hidden == "false") {
+    chrome.storage.sync.get(["isHidden"], function (result) {//sets check box to currently saved status
+        if (result.isHidden == "true") {
             passMessageToContent("hide");
+        }
+        else if (result.isHidden == "false") {
+            passMessageToContent("show");//updates hidden button status
         }
     });
     }
