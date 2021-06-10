@@ -5,9 +5,9 @@ chrome.runtime.onInstalled.addListener(function () {//sets up default values for
         "isHidden": "true"//defines if hovering button is hidden
     });
 });//defines default values
-
+updateFloatingButton();
 chrome.tabs.onActivated.addListener(function(){
-    runHiddenUpdate();
+    updateFloatingButton();
   });
 
 chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
@@ -20,9 +20,9 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
         sendAlert(response.message);
     }
 });
-runHiddenUpdate();
 
-function runHiddenUpdate(){
+
+function updateFloatingButton(){
     chrome.storage.sync.get(["isHidden"], function (result) {//sets check box to currently saved status
         if (result.isHidden == "true") {
             passMessageToContent("hide");

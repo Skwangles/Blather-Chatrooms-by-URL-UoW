@@ -18,12 +18,12 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(injectHtml 
   });
 
 }).then(function () {
-  runHiddenUpdate();
+  updateFloatingButton();
 });
 
 
 
-function runHiddenUpdate() {
+function updateFloatingButton() {
   chrome.storage.sync.get(["isHidden"], function (result) {//sets check box to currently saved status
     if (result.isHidden == "true") {
       showHoveringButton(false);//updates hidden button status
