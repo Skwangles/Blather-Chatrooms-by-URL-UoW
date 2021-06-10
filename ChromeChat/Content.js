@@ -21,8 +21,6 @@ fetch(chrome.runtime.getURL('button.html')).then(r => r.text()).then(injectHtml 
   updateFloatingButton();
 });
 
-
-
 function updateFloatingButton() {
   chrome.storage.sync.get(["isHidden"], function (result) {//sets check box to currently saved status
     if (result.isHidden == "true") {
