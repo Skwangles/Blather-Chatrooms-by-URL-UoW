@@ -6,6 +6,10 @@ chrome.runtime.onInstalled.addListener(function () {//sets up default values for
     });
 });//defines default values
 
+chrome.tabs.onActiveChanged.addListener(function(){
+   runHiddenUpdate();
+});
+
 chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {//message reciever for the service worker
     console.log("recieved! - Background");
     if (response.message == "chatWindow") {
@@ -16,16 +20,18 @@ chrome.runtime.onMessage.addListener(function (response, sender, sendResponse) {
         sendAlert(response.message);
     }
 });
+runHiddenUpdate();
 
-chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
-    if (result.hidden == "true") {
-        passMessageToContent("show");//updates hidden button status
+function runHiddenUpdate(){
+    chrome.storage.sync.get(["hidden"], function (result) {//sets check box to currently saved status
+        if (result.hidden == "true") {
+            passMessageToContent("show");//updates hidden button status
+        }
+        else if (result.hidden == "false") {
+            passMessageToContent("hide");
+        }
+    });
     }
-    else if (result.hidden == "false") {
-        passMessageToContent("hide");
-    }
-});
-
 
 async function processURL() {//gets the url of page and parses the URL
     let params =
