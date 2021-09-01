@@ -1,4 +1,4 @@
-# PinterestChat
+# Blather  -  Public Chatroom defined by page URL
 Group project for University of Waikato - COMPX241 Paper. 
 
 Uses a chrome extension and a firebase server to host a trial version TalkJS chat sessions, along WebRTC one-to-one Video chats. 
